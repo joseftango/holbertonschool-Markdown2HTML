@@ -4,6 +4,7 @@ from sys import argv, stderr, exit
 from os.path import exists
 from markdown import markdown
 
+
 if __name__ == '__main__':
     """calling function convert_to_html"""
     def convert_to_html():
