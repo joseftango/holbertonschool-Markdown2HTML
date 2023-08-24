@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""create a markdown2html.py that takes two arguments:"""
+"""create a markdown2html.py that takes two arguments"""
 from sys import argv, stderr, exit
 from os.path import exists
 from markdown import markdown
@@ -21,4 +21,3 @@ if __name__ == '__main__':
             html = markdown(content)
         with open(html_file, 'w') as f:
             f.write(html + '\n')
-        exit(0)
