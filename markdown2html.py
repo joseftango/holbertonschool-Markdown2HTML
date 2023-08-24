@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""markdown2html module"""
+"""create a markdown2html.py that takes two arguments:"""
 from sys import argv, stderr, exit
 from os.path import exists
 from markdown import markdown
