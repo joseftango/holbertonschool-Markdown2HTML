@@ -6,7 +6,6 @@ from markdown import markdown
 
 
 if __name__ == '__main__':
-    """calling function convert_to_html"""
     num_of_arg = len(argv[1:])
     if num_of_arg < 2:
         stderr.write('Usage: ./markdown2html.py README.md README.html\n')
