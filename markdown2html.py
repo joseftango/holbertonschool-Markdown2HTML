@@ -4,7 +4,6 @@ from sys import argv, stderr, exit
 from os.path import exists
 from markdown import markdown
 
-
 def convert_to_html():
     """function that convert markdown to html"""
     num_of_arg = len(argv[1:])
@@ -25,4 +24,5 @@ def convert_to_html():
 
 
 if __name__ == '__main__':
+    """calling function convert_to_html"""
     convert_to_html()
