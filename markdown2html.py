@@ -5,7 +5,8 @@ from os.path import exists
 from markdown import markdown
 
 
-if __name__ == '__main__':
+def convert_to_html():
+    """function that convert markdown to html"""
     num_of_arg = len(argv[1:])
     if num_of_arg < 2:
         stderr.write('Usage: ./markdown2html.py README.md README.html\n')
@@ -21,3 +22,7 @@ if __name__ == '__main__':
             html = markdown(content)
         with open(html_file, 'w') as f:
             f.write(html + '\n')
+
+
+if __name__ == '__main__':
+    convert_to_html()
