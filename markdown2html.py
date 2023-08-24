@@ -5,7 +5,6 @@ from sys import argv, stderr, exit
 from os.path import exists
 from markdown import markdown
 
-
 if __name__ == '__main__':
     num_of_arg = len(argv[1:])
     if num_of_arg < 2:
