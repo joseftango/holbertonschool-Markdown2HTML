@@ -23,7 +23,7 @@ if __name__ == "__main__":
                 heading_level = l.count('#')
                 heading_text = l.strip('#').strip()
                 heading_html = f'<h{heading_level}>' + \
-                    f'{heading_text}<h{heading_level}/>\n'
+                    f'{heading_text}</h{heading_level}>\n'
                 html_output += heading_html
 
     with open(html_file, 'w') as file:
