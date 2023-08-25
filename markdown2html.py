@@ -15,6 +15,7 @@ if __name__ == "__main__":
     markdown_file = sys.argv[1]
     html_file = sys.argv[2]
     html_output = ''
+    full_list = ''
 
     with open(markdown_file, 'r') as file:
         lines = file.readlines()
@@ -25,6 +26,13 @@ if __name__ == "__main__":
                 heading_html = f'<h{heading_level}>' + \
                     f'{heading_text}</h{heading_level}>\n'
                 html_output += heading_html
+            elif l.startswith('-'):
+                list_el_text = l.strip('-').strip()
+                list_el_html = f'<li>{list_el_text}</li>\n'
+                full_list += list_el_html
+
+        list_output_html = '<ul>\n' + full_list + '</ul>\n'
 
     with open(html_file, 'w') as file:
         file.write(html_output)
+        file.write(list_output_html)
