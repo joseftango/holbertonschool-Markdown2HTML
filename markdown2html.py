@@ -1,7 +1,9 @@
 #!/usr/bin/python3
-"""some script to start"""
+"""transform markdown to html"""
 import sys
 import os
+
+
 if __name__ == "__main__":
     if len(sys.argv) < 3:
         sys.stderr.write("Usage: ./markdown2html.py README.md README.html\n")
@@ -9,39 +11,20 @@ if __name__ == "__main__":
     if not os.path.isfile(sys.argv[1]):
         sys.stderr.write(f"Missing {sys.argv[1]}\n")
         sys.exit(1)
-    with open(sys.argv[1], 'r') as file:
+
+    markdown_file = sys.argv[1]
+    html_file = sys.argv[2]
+    html_output = ''
+
+    with open(markdown_file, 'r') as file:
         lines = file.readlines()
-    lines_in_html = []
-    i = 0
-    while i < len(lines):
-        line = lines[i].strip()
-        # headings
-        if line.startswith("#"):
-            level = line.count("#")
-            text = line.strip("#").strip()
-            html = f"<h{level}>{text}</h{level}>\n"
-            lines_in_html.append(html)
-            i += 1
-        # unordered lists
-        elif line.startswith("-"):
-            lines_in_html.append("<ul>\n")
-            while i < len(lines) and lines[i].strip().startswith("-"):
-                text = lines[i].strip("-").strip()
-                html = f"<li>{text}</li>\n"
-                lines_in_html.append(html)
-                i += 1
-            lines_in_html.append("</ul>\n")
-        # ordered lists
-        elif line.startswith("*"):
-            lines_in_html.append("<ol>\n")
-            while i < len(lines) and lines[i].strip().startswith("*"):
-                text = lines[i].strip("*").strip()
-                html = f"<li>{text}</li>\n"
-                lines_in_html.append(html)
-                i += 1
-            lines_in_html.append("</ol>\n")
-        else:
-            lines_in_html.append(f"{line}")
-            i += 1
-    with open(sys.argv[2], 'w') as file:
-        file.writelines(lines_in_html)
+        for l in lines:
+            if l.startswith('#'):
+                heading_level = l.count('#')
+                heading_text = l.strip('#').strip()
+                heading_html = f'<h{heading_level}>' + \
+                    f'{heading_text}<h{heading_level}/>\n'
+                html_output += heading_html
+
+    with open(html_file, 'w') as file:
+        file.write(html_output)
