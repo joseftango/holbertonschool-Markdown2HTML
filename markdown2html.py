@@ -19,19 +19,23 @@ if __name__ == "__main__":
 
     with open(markdown_file, 'r') as file:
         lines = file.readlines()
+
         for l in lines:
-            if l.startswith('#'):
+            if l.startswith('-'):
+                list_el_text = l.strip('-').strip()
+                list_el_html = f'<li>{list_el_text}</li>\n'
+                full_list += list_el_html
+
+            elif l.startswith('#'):
+                if full_list != '':
+                    list_output_html = '<ul>\n' + full_list + '</ul>\n'
+                    html_output += list_output_html
+
                 heading_level = l.count('#')
                 heading_text = l.strip('#').strip()
                 heading_html = f'<h{heading_level}>' + \
                     f'{heading_text}</h{heading_level}>\n'
                 html_output += heading_html
-            elif l.startswith('-'):
-                list_el_text = l.strip('-').strip()
-                list_el_html = f'<li>{list_el_text}</li>\n'
-                full_list += list_el_html
-
-        list_output_html = '<ul>\n' + full_list + '</ul>\n'
 
     with open(html_file, 'w') as file:
         file.write(html_output)
