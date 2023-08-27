@@ -15,28 +15,32 @@ if __name__ == "__main__":
     markdown_file = sys.argv[1]
     html_file = sys.argv[2]
     html_output = ''
-    full_list = ''
 
     with open(markdown_file, 'r') as file:
         lines = file.readlines()
 
-        for l in lines:
-            if l.startswith('-'):
-                list_el_text = l.strip('-').strip()
-                list_el_html = f'<li>{list_el_text}</li>\n'
-                full_list += list_el_html
-
-            elif l.startswith('#'):
-                if full_list != '':
-                    list_output_html = '<ul>\n' + full_list + '</ul>\n'
-                    html_output += list_output_html
-
-                heading_level = l.count('#')
-                heading_text = l.strip('#').strip()
+        i = 0
+        while i < len(lines):
+            if lines[i].startswith('#'):
+                heading_level = lines[i].count('#')
+                heading_text = lines[i].strip('#').strip()
                 heading_html = f'<h{heading_level}>' + \
                     f'{heading_text}</h{heading_level}>\n'
                 html_output += heading_html
 
+            elif lines[i].startswith('-'):
+                if html_output != '':
+                    html_output += '<ul>\n'
+                else:
+                    html_output += '<ul>\n'
+
+                while i < len(lines) and lines[i].startswith('-'):
+                    text_el = lines[i].strip('-').strip()
+                    html_el_li = f'<li>{text_el}</li>\n'
+                    html_output += html_el_li
+                    i += 1
+                html_output += '</ul>\n'
+            i += 1
+
     with open(html_file, 'w') as file:
         file.write(html_output)
-        file.write(list_output_html)
