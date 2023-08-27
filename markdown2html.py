@@ -29,10 +29,7 @@ if __name__ == "__main__":
                 html_output += heading_html
 
             elif lines[i].startswith('-'):
-                if html_output != '':
-                    html_output += '<ul>\n'
-                else:
-                    html_output += '<ul>\n'
+                html_output += '<ul>\n'
 
                 while i < len(lines) and lines[i].startswith('-'):
                     text_el = lines[i].strip('-').strip()
@@ -40,6 +37,17 @@ if __name__ == "__main__":
                     html_output += html_el_li
                     i += 1
                 html_output += '</ul>\n'
+            
+            elif lines[i].startswith('*'):
+                html_output += '<ol>\n'
+
+                while i < len(lines) and lines[i].startswith('*'):
+                    text_el = lines[i].strip('*').strip()
+                    html_el_li = f'<li>{text_el}</li>\n'
+                    html_output += html_el_li
+                    i += 1
+                html_output += '</ol>\n'
+
             i += 1
 
     with open(html_file, 'w') as file:
