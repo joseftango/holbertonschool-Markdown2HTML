@@ -1,54 +1,46 @@
 #!/usr/bin/python3
 """transform markdown to html"""
 import sys
-import os
 
+def convert_heading(line):
+    if line.startswith("#"):
+        heading_level = min(line.count("#"), 6)
+        heading_text = line.strip("# ").strip()
+        html_heading = f"<h{heading_level}>{heading_text}</h{heading_level}>"
+        return html_heading
+    else:
+        return line
+def convert_unordered_list(line):
+    if line.startswith("- ") and not line.startswith("# "):
+        list_item = line.strip("- ").strip()
+        html_list_item = f"<li>{list_item}</li>"
+        return html_list_item
+    else:
+        return line
+
+
+def markdown_file(name, output):
+    try:
+        with open(name, 'r') as file:
+            markdown_lines = file.readlines()
+
+        converted_lines = []
+        for line in markdown_lines:
+            converted_line = convert_heading(line)
+            converted_line = convert_unordered_list(converted_line)
+            converted_lines.append(converted_line)
+
+        with open(output, 'w') as file:
+            for line in converted_lines:
+                file.write(line)
+
+    except FileNotFoundError:
+        sys.stderr.write(f"Missing {name}\n")
+        sys.exit(1)
 
 if __name__ == "__main__":
-    if len(sys.argv) < 3:
+    if len(sys.argv) != 3:
         sys.stderr.write("Usage: ./markdown2html.py README.md README.html\n")
         sys.exit(1)
-    if not os.path.isfile(sys.argv[1]):
-        sys.stderr.write(f"Missing {sys.argv[1]}\n")
-        sys.exit(1)
 
-    markdown_file = sys.argv[1]
-    html_file = sys.argv[2]
-    html_output = ''
-
-    with open(markdown_file, 'r') as file:
-        lines = file.readlines()
-
-        i = 0
-        while i < len(lines):
-            if lines[i].startswith('#'):
-                heading_level = lines[i].count('#')
-                heading_text = lines[i].strip('#').strip()
-                heading_html = f'<h{heading_level}>' + \
-                    f'{heading_text}</h{heading_level}>\n'
-                html_output += heading_html
-
-            elif lines[i].startswith('-'):
-                html_output += '<ul>\n'
-
-                while i < len(lines) and lines[i].startswith('-'):
-                    text_el = lines[i].strip('-').strip()
-                    html_el_li = f'<li>{text_el}</li>\n'
-                    html_output += html_el_li
-                    i += 1
-                html_output += '</ul>\n'
-            
-            elif lines[i].startswith('*'):
-                html_output += '<ol>\n'
-
-                while i < len(lines) and lines[i].startswith('*'):
-                    text_el = lines[i].strip('*').strip()
-                    html_el_li = f'<li>{text_el}</li>\n'
-                    html_output += html_el_li
-                    i += 1
-                html_output += '</ol>\n'
-
-            i += 1
-
-    with open(html_file, 'w') as file:
-        file.write(html_output)
+    markdown_file(sys.argv[1], sys.argv[2])
