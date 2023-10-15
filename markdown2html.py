@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""transform markdown to html"""
+"""Write a script markdown2html.py"""
 import sys
 
 def convert_heading(line):
